@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Contactos;
 import model.Usuario;
 
 /**
@@ -41,10 +42,7 @@ public class UsuarioDao {
             user.setFecha_registro(Resultado.getString(6));
             user.setCelular(Resultado.getInt(7));
             user.setEmail(Resultado.getString(8));
-
-            String contactos = Resultado.getString(10);
-            String[] contact = contactos.split(",");
-            user.setContactos(Arrays.asList(contact));
+            user.setPassword(Resultado.getString(9));
         }
 
         //Conexion.Cerrar();
@@ -68,29 +66,38 @@ public class UsuarioDao {
             user.setCelular(Resultado.getInt(7));
             user.setEmail(Resultado.getString(8));
 
-            String contactos = Resultado.getString(10);
-            String[] contact = contactos.split(",");
-            user.setContactos(Arrays.asList(contact));
         }
 
         //Conexion.Cerrar();
         return user;
     }
+    
+    public ArrayList<Contactos> getContactos (String idUser) throws SQLException{
+        
+        ArrayList<Contactos> mlist = new ArrayList<>();
+         String consulta = "Select idContacto, idusuario from Contactos where id_usuario_p=?";
+        PreparedStatement Consulta = conect.prepareStatement(consulta);
+        Consulta.setString(1, idUser);
+        ResultSet Resultado = Consulta.executeQuery();
+        while (Resultado.next()) {
+            Contactos  contact = new Contactos();
+            
+            contact.setId_usuario(idUser);
+            contact.setId_contacto(Resultado.getInt(0));
+            contact.setId_usuario(Resultado.getString(1));
+            
+            mlist.add(contact);
+        }
+        
+        return mlist;
+        
+    }
 
     public void deleteContacto(String idUser, ArrayList<String> cusuarios) throws SQLException {
-        Usuario user = getUser(idUser);
-
-        ArrayList<String> new_contactos = new ArrayList<>();
-        for (int i = 0; i < user.getContactos().size(); i++) {
-            if (! isLista(cusuarios, user.getContactos().get(i))){
-                new_contactos.add(user.getContactos().get(i));
-            }
-        }
-        String lista_contact = String.join(",", new_contactos);
+        //Usuario user = getUser(idUser);
 
         String consulta = "update Usuario set contactos = ? where id_usu =?";
         PreparedStatement insert = conect.prepareStatement(consulta);
-        insert.setString(1, lista_contact);
         insert.setString(2, idUser);
 
         insert.executeUpdate();
@@ -107,25 +114,17 @@ public class UsuarioDao {
 
     public void addContacto(String idUser, ArrayList<String> telefonos) throws SQLException {
 
-        Usuario user = getUser(idUser);
-        ArrayList<String> contactos = new ArrayList<>();
-        contactos.addAll(user.getContactos());
-
-        for (String telefono : telefonos) {
-            Usuario useraux = getUserbyphone(telefono);
-            if (useraux != null) {
-                contactos.add(useraux.getId_usu());
-            }
-        }
-
-        String list_contactos = String.join(",", contactos);
-
-        String consulta = "update Usuario set contactos = ? where id_usu =?";
+        
+        for (String telefono:telefonos){
+            Usuario user = this.getUserbyphone(telefono);
+           String consulta = "insert into  contatos(idusuario, idusuairo_p) values( ?,?)";
         PreparedStatement insert = conect.prepareStatement(consulta);
-        insert.setString(1, list_contactos);
+        insert.setString(1, user.getId_usu());
         insert.setString(2, idUser);
 
-        insert.executeUpdate();
+        insert.execute();
+        }
+        
     }
 
     public void updateUser(Usuario user) throws SQLException {
@@ -133,7 +132,7 @@ public class UsuarioDao {
         PreparedStatement insert = conect.prepareStatement(consulta);
         insert.setString(1, user.getAlias());
         insert.setString(2, user.getEstado_usu());
-        insert.setString(3, user.getContraseña());
+        insert.setString(3, user.getPassword());
         insert.setInt(4, user.getCelular());
         insert.setString(5, user.getImagen_usu());
         insert.setString(6, user.getId_usu());
@@ -143,7 +142,7 @@ public class UsuarioDao {
 
     public void reiniciarPassword(String new_password, String idUser) throws SQLException {
         Usuario user = getUser(idUser);
-        user.setContraseña(new_password);
+        user.setPassword(new_password);
         this.updateUser(user);
     }
 
@@ -151,14 +150,15 @@ public class UsuarioDao {
 
     }
 
-    public ArrayList<Usuario> getcontactos(String idUser) throws SQLException {
+    public ArrayList<Usuario> getUsercontactos(String idUser) throws SQLException {
         conect = Conexion.obtener();
+        ArrayList<Contactos> mlista= this.getContactos(idUser);
         ArrayList<Usuario> lista_contactos = new ArrayList<>();
 
         Usuario user = getUser(idUser);
 
-        for (int i = 0; i < user.contactos.size(); i++) {
-            lista_contactos.add(getUser(user.contactos.get(i)));
+        for (int i = 0; i < mlista.size(); i++) {
+            lista_contactos.add(getUser(mlista.get(i).getId_usuario()));
         }
         Conexion.Cerrar();
         return lista_contactos;
