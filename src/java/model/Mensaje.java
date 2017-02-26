@@ -16,7 +16,7 @@ public class Mensaje {
     private int id_tipo_mensaje;
     private String mensaje;
     private String fecha;
-
+    
     /**
      * @return the id_mensaje
      */

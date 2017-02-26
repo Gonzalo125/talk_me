@@ -19,11 +19,13 @@ import model.Usuario;
  * @author giancarlorau
  */
 public class ContactoDao {
-      Connection conect = Conexion.obtener();
+
+    Connection conect = Conexion.obtener();
+
     public ArrayList<Contactos> getContactos(String idUser) throws SQLException {
 
         ArrayList<Contactos> mlist = new ArrayList<>();
-        String consulta = "Select idContacto, idusuario from Contactos where id_usuario_p=?";
+        String consulta = "Select id_contacto, id_usu from contactos where id_usu_prin=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, idUser);
         ResultSet Resultado = Consulta.executeQuery();
@@ -43,44 +45,35 @@ public class ContactoDao {
 
     public void deleteContacto(String idUser, ArrayList<String> cusuarios) throws SQLException {
         //Usuario user = getUser(idUser);
+        for (String usuarios : cusuarios) {
+            String consulta = "delete contactos where id_usu_prin =? and id_usu=?";
+            PreparedStatement insert = conect.prepareStatement(consulta);
+            insert.setString(1, idUser);
+            insert.setString(2, usuarios);
 
-        String consulta = "update Usuario set contactos = ? where id_usu =?";
-        PreparedStatement insert = conect.prepareStatement(consulta);
-        insert.setString(2, idUser);
-
-        insert.executeUpdate();
-    }
-
-    private boolean isLista(ArrayList<String> cusuarios, String idUSer) {
-
-        for (String cusuario : cusuarios) {
-            if (cusuario.equalsIgnoreCase(idUSer)) {
-                return true;
-            }
+            insert.executeUpdate();
         }
-        return false;
     }
 
     public void addContacto(String idUser, ArrayList<String> telefonos) throws SQLException {
-        
+
         UsuarioDao userDao = new UsuarioDao();
         for (String telefono : telefonos) {
             Usuario user = userDao.getUserbyphone(telefono);
-            String consulta = "insert into  contatos(idusuario, idusuairo_p) values( ?,?)";
+            String consulta = "insert into  contactos(id_usu_prin, id_usu) values( ?,?)";
             PreparedStatement insert = conect.prepareStatement(consulta);
-            insert.setString(1, user.getId_usu());
-            insert.setString(2, idUser);
+            insert.setString(1, idUser);
+            insert.setString(2, user.getId_usu());
 
             insert.execute();
         }
 
     }
 
-     public ArrayList<Usuario> getUsercontactos(String idUser) throws SQLException {
-        conect = Conexion.obtener();
+    public ArrayList<Usuario> getUsercontactos(String idUser) throws SQLException {
         ArrayList<Contactos> mlista = this.getContactos(idUser);
         ArrayList<Usuario> lista_contactos = new ArrayList<>();
-         UsuarioDao userDao = new UsuarioDao();
+        UsuarioDao userDao = new UsuarioDao();
         Usuario user = userDao.getUser(idUser);
 
         for (int i = 0; i < mlista.size(); i++) {

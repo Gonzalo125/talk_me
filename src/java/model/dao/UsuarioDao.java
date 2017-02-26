@@ -21,11 +21,11 @@ import model.Usuario;
 public class UsuarioDao {
 
     Usuario user;
-    Connection conect = null;
+    Connection conect = Conexion.obtener();
 
     public boolean verificar_usuario(String email, String password) throws SQLException {
 
-        String consulta = "Select * from Usuario where id_usu=? and pass = ?";
+        String consulta = "Select id_usu from usuario where id_usu=? and pass = ?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, email);
         Consulta.setString(1, password);
@@ -40,7 +40,7 @@ public class UsuarioDao {
     public Usuario getUser(String idUser) throws SQLException {
 
         Usuario user = null;
-        String consulta = "Select * from Usuario where id_usu=?";
+        String consulta = "Select id_usu, nombre, alias, estado, imagen, fecha, telefono, email from usuario where id_usu=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, idUser);
         ResultSet Resultado = Consulta.executeQuery();
@@ -63,7 +63,7 @@ public class UsuarioDao {
     public Usuario getUserbyphone(String telefono) throws SQLException {
 
         Usuario user = null;
-        String consulta = "Select * from Usuario where celular=?";
+        String consulta = "Select id_usu, nombre, alias, estado, imagen, fecha, telefono, email from usuario where telefono=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, telefono);
         ResultSet Resultado = Consulta.executeQuery();
@@ -83,9 +83,8 @@ public class UsuarioDao {
         return user;
     }
 
-
     public void updateUser(Usuario user) throws SQLException {
-        String consulta = "update Usuario set alias = ?, estado_usu= ?, contraseña=?,celular=?, imagen_usu=? where id_usu =?";
+        String consulta = "update usuario set alias = ?, estado= ?, pass=?, telefono=?, imagen=? where id_usu =?";
         PreparedStatement insert = conect.prepareStatement(consulta);
         insert.setString(1, user.getAlias());
         insert.setString(2, user.getEstado_usu());
@@ -107,5 +106,16 @@ public class UsuarioDao {
 
     }
 
-   
+    public void insertUser(Usuario user) throws SQLException {
+        String consulta = "insert into  usuario(nombre, alias, estado, imagen, email, telefono, pass) values( ?,?,?,?,?,?,?)";
+        PreparedStatement insert = conect.prepareStatement(consulta);
+        insert.setString(1, user.getNombre_usu());
+        insert.setString(2, user.getAlias());
+        insert.setString(3, user.getEstado_usu());
+        insert.setString(4, user.getImagen_usu());
+        insert.setString(5, user.getEmail());
+        insert.setInt(6, user.getCelular());
+        insert.setString(7, user.getPassword());
+    }
+
 }
