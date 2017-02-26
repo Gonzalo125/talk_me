@@ -109,46 +109,7 @@ public class ChatDao {
         return objChat;
     }
 
-    public ArrayList<UsuarioxChat> getUsuarioxChat(int idChat) throws SQLException {
-        ArrayList<UsuarioxChat> mlista = new ArrayList<>();
-        String consulta = "Select * from usuarioxchat where id_chat=?";
-        PreparedStatement Consulta = conect.prepareStatement(consulta);
-        Consulta.setInt(1, idChat);
-        ResultSet Resultado = Consulta.executeQuery();
-        while (Resultado.next()) {
-            UsuarioxChat userxchat = new UsuarioxChat();
-
-            userxchat.setFecha("");
-            userxchat.setId_chat(idChat);
-            userxchat.setId_usuario("1");
-            userxchat.setId_usuario_chat(1);
-            userxchat.setIs_admin(true);
-            mlista.add(userxchat);
-
-        }
-        return mlista;
-    }
-
-    private ArrayList<UsuarioxChat> getUsuarioxChat(String idUser) throws SQLException {
-        ArrayList<UsuarioxChat> mlista = new ArrayList<>();
-        String consulta = "Select * from usuarioxchat where id_user=?";
-        PreparedStatement Consulta = conect.prepareStatement(consulta);
-        Consulta.setString(1, idUser);
-        ResultSet Resultado = Consulta.executeQuery();
-        while (Resultado.next()) {
-            UsuarioxChat userxchat = new UsuarioxChat();
-
-            userxchat.setFecha("");
-            userxchat.setId_chat(1);
-            userxchat.setId_usuario(idUser);
-            userxchat.setId_usuario_chat(1);
-            userxchat.setIs_admin(true);
-            mlista.add(userxchat);
-
-        }
-        return mlista;
-    }
-
+   
     public void AnhadirAdmin(int id_chat, String id_user, ArrayList<Usuario> userlista) throws SQLException {
 
         for (Usuario user : userlista) {
@@ -164,8 +125,9 @@ public class ChatDao {
 
     public ArrayList<Chat> getlistChat(String idUser) throws SQLException {
         ArrayList<Chat> mlist = new ArrayList<>();
-
-        ArrayList<UsuarioxChat> mlist_chats = this.getUsuarioxChat(idUser);
+         UsuarioxChatDao userxchatdao = new UsuarioxChatDao();
+       
+        ArrayList<UsuarioxChat> mlist_chats = userxchatdao.getUsuarioxChat(idUser);
 
         for (UsuarioxChat mlist_chat : mlist_chats) {
             Chat chat = this.getChat(mlist_chat.getId_chat());
