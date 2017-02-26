@@ -12,6 +12,7 @@ public class UsuarioxChat {
     private int id_chat;
     private String fecha;
     private Boolean estado;
+    private Boolean is_admin;
 
     /**
      * @return the id_usuario_chat
@@ -81,5 +82,19 @@ public class UsuarioxChat {
      */
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    /**
+     * @return the is_admin
+     */
+    public Boolean getIs_admin() {
+        return is_admin;
+    }
+
+    /**
+     * @param is_admin the is_admin to set
+     */
+    public void setIs_admin(Boolean is_admin) {
+        this.is_admin = is_admin;
     }
 }

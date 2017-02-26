@@ -26,6 +26,20 @@ public class UsuarioDao {
     Usuario user;
     Connection conect = null;
 
+    public boolean verificar_usuario(String email , String password) throws SQLException {
+        
+        String consulta = "Select * from Usuario where id_usu=? and pass = ?";
+        PreparedStatement Consulta = conect.prepareStatement(consulta);
+        Consulta.setString(1, email);
+        Consulta.setString(1, password);
+        ResultSet Resultado = Consulta.executeQuery();
+        if (Resultado.next()){
+            
+        return true;
+        }
+        return false;
+    }
+    
     public Usuario getUser(String idUser) throws SQLException {
 
         Usuario user = null;
@@ -42,7 +56,7 @@ public class UsuarioDao {
             user.setFecha_registro(Resultado.getString(6));
             user.setCelular(Resultado.getInt(7));
             user.setEmail(Resultado.getString(8));
-            user.setPassword(Resultado.getString(9));
+            //user.setPassword(Resultado.getString(9));
         }
 
         //Conexion.Cerrar();

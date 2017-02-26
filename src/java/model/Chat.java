@@ -20,6 +20,7 @@ public class Chat {
     private String archivo;
     private Date fecha_crecion_chat;
     private String imagen_chat;
+    private int can_personas;
 
     /**
      * @return the id_chat
@@ -89,6 +90,20 @@ public class Chat {
      */
     public void setImagen_chat(String imagen_chat) {
         this.imagen_chat = imagen_chat;
+    }
+
+    /**
+     * @return the can_personas
+     */
+    public int getCan_personas() {
+        return can_personas;
+    }
+
+    /**
+     * @param can_personas the can_personas to set
+     */
+    public void setCan_personas(int can_personas) {
+        this.can_personas = can_personas;
     }
 
    
