@@ -12,10 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import model.Chat;
-import model.Usuario;
 import model.Usuario;
 import model.UsuarioxChat;
 
@@ -46,7 +43,7 @@ public class ChatDao {
         insert.setDate(3, date);
         insert.setString(4, id_user_Admin);
         insert.setString(5, img);
-        
+
         int cant_user = user.size() + 1;
 
         insert.setString(7, "");
@@ -54,25 +51,25 @@ public class ChatDao {
         insert.executeUpdate();
 
         //Conexion.Cerrar();
-        
         int id_chat = 0;
-        for(Usuario user_unico : user) {
+        for (Usuario user_unico : user) {
             this.insert_usuario_chat(id_chat, id_user_Admin, user_unico.getId_usu());
         }
     }
 
     private void insert_usuario_chat(int id_chat, String id_user_Admin, String id_user) throws SQLException {
-         String consulta = "Insert into contactos (n,tipo_chat,archivos, id_chat) values (?,?,?)";
+        String consulta = "Insert into usuarioxchat (n,tipo_chat,archivos, id_chat) values (?,?,?)";
         PreparedStatement insert = conect.prepareStatement(consulta);
 
         insert.setString(1, id_user_Admin);
         insert.setString(1, id_user);
         insert.setInt(1, id_chat);
+        insert.setBoolean(1, false);
     }
-    
+
     public void deletePersonChat(int id_chat, String user) throws SQLException {
         // Chat chat = getChat(id_chat);
-        
+
         String consulta = "delete usuarioxchat where id_chat =? and idusuario= ?";
         PreparedStatement insert = conect.prepareStatement(consulta);
         insert.setString(1, user);
@@ -83,7 +80,7 @@ public class ChatDao {
     }
 
     public void deleteAdmin(int id_chat, String user) throws SQLException {
-        
+
         String consulta = "delete usuarioxchat where id_chat =? and idusuario= ?";
         PreparedStatement insert = conect.prepareStatement(consulta);
         insert.setString(1, user);
@@ -103,9 +100,8 @@ public class ChatDao {
             objChat.setId_chat(Resultado.getInt(1));
             objChat.setNombre_chat(Resultado.getString(2));
 
-    
             objChat.setFecha_crecion_chat(Resultado.getDate(4));
-           
+
             objChat.setImagen_chat(Resultado.getString(6));
             objChat.setCan_personas(Resultado.getInt(7));
             objChat.setArchivo(Resultado.getString(8));
@@ -113,7 +109,7 @@ public class ChatDao {
         return objChat;
     }
 
-    public ArrayList<UsuarioxChat> getUsuarioxChat (int idChat) throws SQLException {
+    public ArrayList<UsuarioxChat> getUsuarioxChat(int idChat) throws SQLException {
         ArrayList<UsuarioxChat> mlista = new ArrayList<>();
         String consulta = "Select * from usuarioxchat where id_chat=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
@@ -121,37 +117,61 @@ public class ChatDao {
         ResultSet Resultado = Consulta.executeQuery();
         while (Resultado.next()) {
             UsuarioxChat userxchat = new UsuarioxChat();
-            
+
             userxchat.setFecha("");
             userxchat.setId_chat(idChat);
             userxchat.setId_usuario("1");
             userxchat.setId_usuario_chat(1);
             userxchat.setIs_admin(true);
             mlista.add(userxchat);
-            
+
         }
         return mlista;
     }
-    
-    public void AnhadirAdmin(int id_chat, ArrayList<Usuario> user) throws SQLException {
 
-        Chat chat = getChat(id_chat);
-        ArrayList<String> admins = new ArrayList<>();
-        admins.addAll(chat.getAdmin_chat());
-        for (int i = 0; i < user.size(); i++) {
-            admins.add(user.get(i).getId_usu());
+    private ArrayList<UsuarioxChat> getUsuarioxChat(String idUser) throws SQLException {
+        ArrayList<UsuarioxChat> mlista = new ArrayList<>();
+        String consulta = "Select * from usuarioxchat where id_user=?";
+        PreparedStatement Consulta = conect.prepareStatement(consulta);
+        Consulta.setString(1, idUser);
+        ResultSet Resultado = Consulta.executeQuery();
+        while (Resultado.next()) {
+            UsuarioxChat userxchat = new UsuarioxChat();
+
+            userxchat.setFecha("");
+            userxchat.setId_chat(1);
+            userxchat.setId_usuario(idUser);
+            userxchat.setId_usuario_chat(1);
+            userxchat.setIs_admin(true);
+            mlista.add(userxchat);
+
         }
-        String lista_admins = String.join(",", admins);
-
-        String consulta = "update chat set admin_chat = ? where id_chat =?";
-        PreparedStatement insert = conect.prepareStatement(consulta);
-        insert.setString(1, lista_admins);
-        insert.setInt(2, id_chat);
-
-        insert.executeUpdate();
+        return mlista;
     }
-    
-    public ArrayList<Chat> getlistChat() {
-        
+
+    public void AnhadirAdmin(int id_chat, String id_user, ArrayList<Usuario> userlista) throws SQLException {
+
+        for (Usuario user : userlista) {
+            String consulta = "Insert into usuarioxchat (n,tipo_chat,archivos, id_chat) values (?,?,?)";
+            PreparedStatement insert = conect.prepareStatement(consulta);
+
+            insert.setString(1, user.getId_usu());
+            insert.setString(1, id_user);
+            insert.setInt(1, id_chat);
+            insert.setBoolean(1, true);
+        }
+    }
+
+    public ArrayList<Chat> getlistChat(String idUser) throws SQLException {
+        ArrayList<Chat> mlist = new ArrayList<>();
+
+        ArrayList<UsuarioxChat> mlist_chats = this.getUsuarioxChat(idUser);
+
+        for (UsuarioxChat mlist_chat : mlist_chats) {
+            Chat chat = this.getChat(mlist_chat.getId_chat());
+            mlist.add(chat);
+        }
+
+        return mlist;
     }
 }

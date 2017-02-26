@@ -11,9 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Contactos;
 import model.Usuario;
 
@@ -26,20 +23,20 @@ public class UsuarioDao {
     Usuario user;
     Connection conect = null;
 
-    public boolean verificar_usuario(String email , String password) throws SQLException {
-        
+    public boolean verificar_usuario(String email, String password) throws SQLException {
+
         String consulta = "Select * from Usuario where id_usu=? and pass = ?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, email);
         Consulta.setString(1, password);
         ResultSet Resultado = Consulta.executeQuery();
-        if (Resultado.next()){
-            
-        return true;
+        if (Resultado.next()) {
+
+            return true;
         }
         return false;
     }
-    
+
     public Usuario getUser(String idUser) throws SQLException {
 
         Usuario user = null;
@@ -85,26 +82,26 @@ public class UsuarioDao {
         //Conexion.Cerrar();
         return user;
     }
-    
-    public ArrayList<Contactos> getContactos (String idUser) throws SQLException{
-        
+
+    public ArrayList<Contactos> getContactos(String idUser) throws SQLException {
+
         ArrayList<Contactos> mlist = new ArrayList<>();
-         String consulta = "Select idContacto, idusuario from Contactos where id_usuario_p=?";
+        String consulta = "Select idContacto, idusuario from Contactos where id_usuario_p=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, idUser);
         ResultSet Resultado = Consulta.executeQuery();
         while (Resultado.next()) {
-            Contactos  contact = new Contactos();
-            
+            Contactos contact = new Contactos();
+
             contact.setId_usuario(idUser);
             contact.setId_contacto(Resultado.getInt(0));
             contact.setId_usuario(Resultado.getString(1));
-            
+
             mlist.add(contact);
         }
-        
+
         return mlist;
-        
+
     }
 
     public void deleteContacto(String idUser, ArrayList<String> cusuarios) throws SQLException {
@@ -116,10 +113,11 @@ public class UsuarioDao {
 
         insert.executeUpdate();
     }
+
     private boolean isLista(ArrayList<String> cusuarios, String idUSer) {
-        
+
         for (String cusuario : cusuarios) {
-            if (cusuario.equalsIgnoreCase(idUSer)){
+            if (cusuario.equalsIgnoreCase(idUSer)) {
                 return true;
             }
         }
@@ -128,17 +126,16 @@ public class UsuarioDao {
 
     public void addContacto(String idUser, ArrayList<String> telefonos) throws SQLException {
 
-        
-        for (String telefono:telefonos){
+        for (String telefono : telefonos) {
             Usuario user = this.getUserbyphone(telefono);
-           String consulta = "insert into  contatos(idusuario, idusuairo_p) values( ?,?)";
-        PreparedStatement insert = conect.prepareStatement(consulta);
-        insert.setString(1, user.getId_usu());
-        insert.setString(2, idUser);
+            String consulta = "insert into  contatos(idusuario, idusuairo_p) values( ?,?)";
+            PreparedStatement insert = conect.prepareStatement(consulta);
+            insert.setString(1, user.getId_usu());
+            insert.setString(2, idUser);
 
-        insert.execute();
+            insert.execute();
         }
-        
+
     }
 
     public void updateUser(Usuario user) throws SQLException {
@@ -166,7 +163,7 @@ public class UsuarioDao {
 
     public ArrayList<Usuario> getUsercontactos(String idUser) throws SQLException {
         conect = Conexion.obtener();
-        ArrayList<Contactos> mlista= this.getContactos(idUser);
+        ArrayList<Contactos> mlista = this.getContactos(idUser);
         ArrayList<Usuario> lista_contactos = new ArrayList<>();
 
         Usuario user = getUser(idUser);
