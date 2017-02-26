@@ -12,65 +12,35 @@ package model;
  */
 public class Archivo {
 
-    private String imagen;
-    private String pdf;
-    private String video;
-    private String mp3;
+   private int id;
+   private String name;
 
     /**
-     * @return the imagen
+     * @return the id
      */
-    public String getImagen() {
-        return imagen;
+    public int getId() {
+        return id;
     }
 
     /**
-     * @param imagen the imagen to set
+     * @param id the id to set
      */
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
-     * @return the pdf
+     * @return the name
      */
-    public String getPdf() {
-        return pdf;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param pdf the pdf to set
+     * @param name the name to set
      */
-    public void setPdf(String pdf) {
-        this.pdf = pdf;
-    }
-
-    /**
-     * @return the video
-     */
-    public String getVideo() {
-        return video;
-    }
-
-    /**
-     * @param video the video to set
-     */
-    public void setVideo(String video) {
-        this.video = video;
-    }
-
-    /**
-     * @return the mp3
-     */
-    public String getMp3() {
-        return mp3;
-    }
-
-    /**
-     * @param mp3 the mp3 to set
-     */
-    public void setMp3(String mp3) {
-        this.mp3 = mp3;
+    public void setName(String name) {
+        this.name = name;
     }
     
 }

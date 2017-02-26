@@ -77,11 +77,6 @@ public class UsuarioDao {
         return user;
     }
 
-    private boolean existe_usuario(String phone) throws SQLException {
-        Usuario user = getUserbyphone(phone);
-        return user != null;
-    }
-
     public void deleteContacto(String idUser, ArrayList<String> cusuarios) throws SQLException {
         Usuario user = getUser(idUser);
 

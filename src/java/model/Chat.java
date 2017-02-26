@@ -18,11 +18,8 @@ public class Chat {
     private int id_chat;
     private String nombre_chat;
     private String archivo;
-    private List<String> personas_chat;
-    private List<String> admin_chat;
     private Date fecha_crecion_chat;
     private String imagen_chat;
-    private int tipo;
 
     /**
      * @return the id_chat
@@ -67,20 +64,6 @@ public class Chat {
     }
 
     /**
-     * @return the personas_chat
-     */
-    public List<String> getPersonas_chat() {
-        return personas_chat;
-    }
-
-    /**
-     * @param personas_chat the personas_chat to set
-     */
-    public void setPersonas_chat(List<String> personas_chat) {
-        this.personas_chat = personas_chat;
-    }
-
-    /**
      * @return the fecha_crecion_chat
      */
     public Date getFecha_crecion_chat() {
@@ -108,31 +91,5 @@ public class Chat {
         this.imagen_chat = imagen_chat;
     }
 
-    /**
-     * @return the tipo
-     */
-    public int getTipo() {
-        return tipo;
-    }
-
-    /**
-     * @param tipo the tipo to set
-     */
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
-    /**
-     * @return the admin_chat
-     */
-    public List<String> getAdmin_chat() {
-        return admin_chat;
-    }
-
-    /**
-     * @param admin_chat the admin_chat to set
-     */
-    public void setAdmin_chat(List<String> admin_chat) {
-        this.admin_chat = admin_chat;
-    }
+   
 }

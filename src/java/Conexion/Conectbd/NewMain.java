@@ -26,24 +26,7 @@ public class NewMain {
         UsuarioDao dao = new UsuarioDao();
         ChatDao daoChat = new ChatDao();
         
-        ArrayList<Usuario> contactos= new ArrayList<>();
-        try {
-             contactos = dao.getcontactos("gonzalo123");
-            
-            for (int i = 0; i < contactos.size(); i++) {
-                System.out.println(""+contactos.get(i).getNombre_usu());
-            }
-            
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(NewMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        //daoChat.IniciarChat("gonzalo123", contactos, "", "GRupo Gonzalo");
-        
-        //daoChat.AnhadirAdmin(1, contactos);
-        // daoChat.AnhadirContacto(2, contactos);
+       
     }
     
 }

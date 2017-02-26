@@ -5,31 +5,13 @@
  */
 package model;
 
-/**
- *
- * @author giancarlorau
- */
-public class Mensaje {
+public class UsuarioxChat {
     
-    private int id_mensaje;
     private int id_usuario_chat;
-    private int id_tipo_mensaje;
-    private String mensaje;
+    private String id_usuario;
+    private int id_chat;
     private String fecha;
-
-    /**
-     * @return the id_mensaje
-     */
-    public int getId_mensaje() {
-        return id_mensaje;
-    }
-
-    /**
-     * @param id_mensaje the id_mensaje to set
-     */
-    public void setId_mensaje(int id_mensaje) {
-        this.id_mensaje = id_mensaje;
-    }
+    private Boolean estado;
 
     /**
      * @return the id_usuario_chat
@@ -46,31 +28,31 @@ public class Mensaje {
     }
 
     /**
-     * @return the id_tipo_mensaje
+     * @return the id_usuario
      */
-    public int getId_tipo_mensaje() {
-        return id_tipo_mensaje;
+    public String getId_usuario() {
+        return id_usuario;
     }
 
     /**
-     * @param id_tipo_mensaje the id_tipo_mensaje to set
+     * @param id_usuario the id_usuario to set
      */
-    public void setId_tipo_mensaje(int id_tipo_mensaje) {
-        this.id_tipo_mensaje = id_tipo_mensaje;
+    public void setId_usuario(String id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
     /**
-     * @return the mensaje
+     * @return the id_chat
      */
-    public String getMensaje() {
-        return mensaje;
+    public int getId_chat() {
+        return id_chat;
     }
 
     /**
-     * @param mensaje the mensaje to set
+     * @param id_chat the id_chat to set
      */
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setId_chat(int id_chat) {
+        this.id_chat = id_chat;
     }
 
     /**
@@ -86,5 +68,18 @@ public class Mensaje {
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
-    
+
+    /**
+     * @return the estado
+     */
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    /**
+     * @param estado the estado to set
+     */
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
 }
