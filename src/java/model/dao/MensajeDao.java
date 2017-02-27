@@ -53,10 +53,13 @@ public class MensajeDao {
 
         int id_usuario_chat = mlist.get(0).getId_usuario_chat();
 
-        String consulta = "insert into mensajes(idusuario, idusuairo_p) values( ?,?)";
+        String consulta = "insert into mensaje (id_usu_chat, fecha, mensaje) values( ?,?, ?)";
         PreparedStatement insert = conect.prepareStatement(consulta);
         insert.setInt(1, id_usuario_chat);
-        insert.setString(2, mensaje);
+        long mili = System.currentTimeMillis();
+        Date date = new Date(mili);
+        insert.setDate(2, date);
+        insert.setString(3, mensaje);
 
         insert.execute();
     }
