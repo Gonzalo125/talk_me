@@ -28,7 +28,7 @@ public class MensajeDao {
 
         ArrayList<Mensaje> mlist = new ArrayList<>();
 
-        String consulta = "Select * from Mensaje where id_Chat=?";
+        String consulta = "Select a.id_mensaje, a.id_usu_chat, a.fecha, a.mensaje from mensaje a, usuario x chat b where a.id_usu_chat = b.id_usu_chat and  b.id_Chat=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setInt(1, id_chat);
         ResultSet Resultado = Consulta.executeQuery();
@@ -36,8 +36,9 @@ public class MensajeDao {
             Mensaje mensaje = new Mensaje();
 
             mensaje.setId_mensaje(Resultado.getInt(1));
-            mensaje.setId_usuario_chat(id_chat);
-            mensaje.setMensaje(consulta);
+            mensaje.setId_usuario_chat(Resultado.getInt(2));
+            mensaje.setFecha(Resultado.getString(3));
+            mensaje.setMensaje(Resultado.getString(4));
 
             mlist.add(mensaje);
         }
@@ -52,7 +53,7 @@ public class MensajeDao {
 
         int id_usuario_chat = mlist.get(0).getId_usuario_chat();
 
-        String consulta = "insert into  mensajes(idusuario, idusuairo_p) values( ?,?)";
+        String consulta = "insert into mensajes(idusuario, idusuairo_p) values( ?,?)";
         PreparedStatement insert = conect.prepareStatement(consulta);
         insert.setInt(1, id_usuario_chat);
         insert.setString(2, mensaje);
