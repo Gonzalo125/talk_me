@@ -16,7 +16,7 @@ import model.Usuario;
 
 /**
  *
- * @author giancarlorau
+ * @author 
  */
 public class ContactoDao {
 

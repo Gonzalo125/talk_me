@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author giancarlorau
+ * @author 
  */
 public class Mensaje {
     

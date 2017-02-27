@@ -15,7 +15,7 @@ import model.UsuarioxChat;
 
 /**
  *
- * @author giancarlorau
+ * @author 
  */
 public class UsuarioxChatDao {
 
