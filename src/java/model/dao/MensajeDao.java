@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import model.Mensaje;
-import model.UsuarioxChat;
+import model.Entidades.Mensaje;
+import model.Entidades.UsuarioxChat;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -28,7 +28,7 @@ public class MensajeDao {
 
         ArrayList<Mensaje> mlist = new ArrayList<>();
 
-        String consulta = "Select a.id_mensaje, a.id_usu_chat, a.fecha, a.mensaje from mensaje a, usuario x chat b where a.id_usu_chat = b.id_usu_chat and  b.id_Chat=?";
+        String consulta = "Select a.id_mensaje, a.id_usu_chat, a.fecha, a.mensaje from mensaje a, usuario x chat b where a.id_usu_chat = b.id_usu_chat and  b.id_Chat=?";//aca combina dos tablas del mensaje y del usuaeio por chat
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setInt(1, id_chat);
         ResultSet Resultado = Consulta.executeQuery();

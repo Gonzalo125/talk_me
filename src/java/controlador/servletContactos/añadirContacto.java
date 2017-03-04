@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servletUsuario;
+package controlador.servletContactos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,14 +16,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.dao.UsuarioDao;
+import model.dao.ContactoDao;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
-public class LoginConexion extends HttpServlet {
+@WebServlet(name = "añadirContacto", urlPatterns = {"/a_adirContacto"})
+public class añadirContacto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,23 +38,23 @@ public class LoginConexion extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String Correo = request.getParameter("InputEmail");
-            String Clave = request.getParameter("InputPassword");
+            /* TODO output your page here. You may use following sample code. */
+            String id_contacto= request.getParameter("anhadir_id_contact");
+           String id_user = request.getParameter("id_user");
+           
+           ContactoDao cont_dao= new ContactoDao();
+          
+            ArrayList<String> mlistaUsuarios = new ArrayList<>();
+           mlistaUsuarios.add(id_contacto);
             
-            UsuarioDao objUsuario = new UsuarioDao();
-            if(objUsuario.verificar_usuario(Correo, Clave)){
-                request.getRequestDispatcher("pantallaChat.jpg").forward(request, response);
-                
-            }
-            else{
-                out.println("Error en Usuario y/o clave");
-                String redirectUrl="Login.jsp";
-                response.sendRedirect(redirectUrl);
-            }
-            
+           cont_dao.addContacto(id_user, mlistaUsuarios);
+           
+           
+           
         } catch (SQLException ex) {
-            Logger.getLogger(LoginConexion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -95,5 +96,4 @@ public class LoginConexion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
 }

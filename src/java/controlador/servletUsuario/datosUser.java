@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servletUsuario;
+package controlador.servletUsuario;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,14 +15,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Usuario;
+import model.Entidades.Usuario;
+
 import model.dao.UsuarioDao;
+
 /**
  *
  * @author User
  */
-@WebServlet(name = "RegistroUsuario", urlPatterns = {"/RegistroUsuario"})
-public class RegistroUsuario extends HttpServlet {
+@WebServlet(name = "datosUser", urlPatterns = {"/datosUser"})
+public class datosUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,38 +36,34 @@ public class RegistroUsuario extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String nombre_usu=request.getParameter("nombre");
-            String alias= request.getParameter("alias");
-            String estado_usu=request.getParameter("estado");
-            String imagen_usu= request.getParameter("imagen");
-            String fecha_usu=request.getParameter("fecha_usu");
-            String email=request.getParameter("email");
-            int telefono=Integer.parseInt(request.getParameter("telef"));
-            String contraseña=request.getParameter("contraseña");
-            
-            
-            Usuario user= new Usuario();
-            
-            user.setNombre_usu(nombre_usu);
-            user.setAlias(alias);
-            user.setEstado_usu(estado_usu);
-            user.setImagen_usu(imagen_usu);
-            user.setFecha_registro(fecha_usu);
-            user.setEmail(email);
-            user.setCelular(telefono);
-            user.setPassword(contraseña);
-            UsuarioDao user_dao=new UsuarioDao();
-            user_dao.insertUser(user);
-            
-            
-            
+            /* TODO output your page here. You may use following sample code. */
+           //String idUser=request.getParameter("id_usuario");
+           String idUser="awe";
+          UsuarioDao user=new UsuarioDao();
+          user.getUser(idUser);
+                  
+             Usuario us =new Usuario();
+            System.out.println("nombre"+us.getId_usu());
+            request.getRequestDispatcher("vista_datos.jsp?nombre"+us.getId_usu()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?id_usuar"+us.getAlias()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?alias"+us.getEstado_usu()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?estado"+us.getImagen_usu()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?imagen"+us.getFecha_registro()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?fecha_usu"+us.getEmail()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?email"+us.getCelular()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?telef"+us.getId_usu()).forward(request, response);
+            request.getRequestDispatcher("vista_datos.jsp?password"+ us.getPassword()).forward(request, response);
+            String redirectUrl="vista_datos.jsp";
+          response.sendRedirect(redirectUrl);
            
-        } catch (SQLException ex) {
-            Logger.getLogger(RegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
+    
+             } catch (SQLException ex) {
+            Logger.getLogger(Actualizar_user.class.getName()).log(Level.SEVERE, null, ex);
         }
+            
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,7 +78,11 @@ public class RegistroUsuario extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(datosUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -95,7 +96,11 @@ public class RegistroUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(datosUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

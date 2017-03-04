@@ -1,3 +1,11 @@
+<%-- 
+    Document   : panta_chat
+    Created on : 03-mar-2017, 18:33:56
+    Author     : User
+--%>
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,8 +31,10 @@
 			<div id="perfil-foto">
 				<img src="img/foto.jpg" style="width: 100%;height: 100%">
 			</div>
-			<div id="perfil-info">NOMBRE</div>
-                        
+                    <form action="Actualizar_user.java" method="post">
+                        <input name="perfil-info" id="perfil-info" />
+                        <button type="submit">Enviar</button>
+                    </form>   
 		</div>
 
 		<span class="pane panel-dos" style="display: none; z-index: 99999">CHATS</span>

@@ -16,12 +16,13 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
 
-    private static Connection connection= null;
+     static Connection connection= null;
     public static Connection obtener(){
         if(connection==null){
+            
             String connectionString =  
-                    "jdbc:sqlserver://USER-PC\\SQLEXPRESS;"  
-                    + "database=TALK_2_ME;"  
+                    "jdbc:sqlserver://USER-PC\\SQLEXPRESS:1433;"  
+                    + "database=TALK2_ME;"  
                     + "user=sa;"  
                     + "password=123;";  
 
@@ -29,7 +30,13 @@ public class Conexion {
                  connection = null;  
 
                 try {  
-                    connection = DriverManager.getConnection(connectionString);  
+                    DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
+                     String dbURL = "jdbc:sqlserver://localhost\\sqlexpress";
+            String user = "sa";
+            String pass = "123";
+            connection = DriverManager.getConnection(dbURL, user, pass);
+                    
+                    //connection = DriverManager.getConnection(connectionString);  
 
                 }  
                 catch (Exception e) {  

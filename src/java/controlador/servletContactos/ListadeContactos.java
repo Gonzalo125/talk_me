@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servletContactos;
+package controlador.servletContactos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,8 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Contactos;
-import model.Usuario;
+import model.Entidades.Contactos;
+import model.Entidades.Usuario;
 import model.dao.ContactoDao;
 import model.dao.UsuarioDao;
 
@@ -26,7 +26,7 @@ import model.dao.UsuarioDao;
  * @author User
  */
 @WebServlet(name = "llamarContacto", urlPatterns = {"/llamarContacto"})
-public class llamarContacto extends HttpServlet {
+public class ListadeContactos extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,14 +44,24 @@ public class llamarContacto extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             ContactoDao contac_dao= new ContactoDao();
             String id_user = request.getParameter("id_user");
+             contac_dao.getContactos("8");
+           ArrayList<Usuario> mlistaUsuarios = contac_dao.getUsercontactos(id_user);
+           
+           for(Usuario item:mlistaUsuarios){
+              
+                System.out.println("<tr> <td>"+item.getId_usu()+"</td>  <td>"+item.getNombre_usu()+"</td>  <td>"+item.getAlias()+"</td>  <td>"+item.getEmail()+"</td>  <td>"+item.getPassword()+"</td>  <td> "+item.getFecha_registro()+"</td> </tr>");
+              
+            }
+           
+           
             
-            ArrayList<Usuario> mlistaUsuarios = contac_dao.getUsercontactos(id_user);
+            
             
             
             
            
         } catch (SQLException ex) {
-            Logger.getLogger(llamarContacto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListadeContactos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

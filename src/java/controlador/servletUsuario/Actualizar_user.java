@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servletUsuario;
+package controlador.servletUsuario;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Usuario;
+import model.Entidades.Usuario;
 import model.dao.UsuarioDao;
 
 /**
@@ -39,6 +39,8 @@ public class Actualizar_user extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+            
+            
            String nombre=request.getParameter("nombre");
             String alias= request.getParameter("alias");
             String estado_usu=request.getParameter("estado");
@@ -58,7 +60,7 @@ public class Actualizar_user extends HttpServlet {
             user.setCelular(telefono);
             
             UsuarioDao user_dao = new UsuarioDao();
-            user_dao.insertUser(user);
+            user_dao.updateUser(user);
             
         } catch (SQLException ex) {
             Logger.getLogger(Actualizar_user.class.getName()).log(Level.SEVERE, null, ex);

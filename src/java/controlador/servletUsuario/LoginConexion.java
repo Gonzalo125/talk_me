@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servletContactos;
+package controlador.servletUsuario;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,17 +15,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Contactos;
-import model.Usuario;
-import model.dao.ContactoDao;
 import model.dao.UsuarioDao;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "eleiminarContacto", urlPatterns = {"/eleiminarContacto"})
-public class eliminarContacto extends HttpServlet {
+@WebServlet(name = "LoginConexion", urlPatterns = {"/LoginConexion"})
+public class LoginConexion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,22 +37,22 @@ public class eliminarContacto extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-           String id_contacto= request.getParameter("elimin_contact");
-            String id_user = request.getParameter("id_user");
-           
-           
-           ContactoDao cont_dao= new ContactoDao();
-          
-            ArrayList<String> mlistaUsuarios = new ArrayList<>();
-           mlistaUsuarios.add(id_contacto);
+            String id = request.getParameter("email");
+            String Clave = request.getParameter("clave");
             
-           cont_dao.deleteContacto(id_user, mlistaUsuarios);
-           
-           
-           
+            UsuarioDao objUsuario = new UsuarioDao();
+            if(objUsuario.verificar_usuario(id, Clave)){
+                request.getRequestDispatcher("panta_chat.jsp").forward(request, response);
+                
+            }
+            else{
+                out.println("Error en Usuario y/o clave");
+                String redirectUrl="Login.jsp";
+                response.sendRedirect(redirectUrl);
+            }
+            
         } catch (SQLException ex) {
-            Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginConexion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -88,7 +84,7 @@ public class eliminarContacto extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+          
     /**
      * Returns a short description of the servlet.
      *
@@ -99,4 +95,5 @@ public class eliminarContacto extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    
 }

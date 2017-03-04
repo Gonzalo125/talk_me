@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servletContactos;
+package controlador.servletContactos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,14 +16,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Entidades.Contactos;
+import model.Entidades.Usuario;
 import model.dao.ContactoDao;
+import model.dao.UsuarioDao;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "añadirContacto", urlPatterns = {"/a_adirContacto"})
-public class añadirContacto extends HttpServlet {
+@WebServlet(name = "eleiminarContacto", urlPatterns = {"/eleiminarContacto"})
+public class eliminarContacto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,22 +42,22 @@ public class añadirContacto extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String id_contacto= request.getParameter("anhadir_id_contact");
-           String id_user = request.getParameter("id_user");
+           String id_contacto= request.getParameter("elimin_contact");
+            String id_user = request.getParameter("id_user");
+           
            
            ContactoDao cont_dao= new ContactoDao();
           
             ArrayList<String> mlistaUsuarios = new ArrayList<>();
            mlistaUsuarios.add(id_contacto);
             
-           cont_dao.addContacto(id_user, mlistaUsuarios);
+           cont_dao.deleteContacto(id_user, mlistaUsuarios);
            
            
            
         } catch (SQLException ex) {
             Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

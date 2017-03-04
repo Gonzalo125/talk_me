@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.UsuarioxChat;
+import model.Entidades.UsuarioxChat;
 
 /**
  *
@@ -22,7 +22,7 @@ public class UsuarioxChatDao {
     Connection conect = Conexion.obtener();
 
     public UsuarioxChat get_userxChat(int id_user_chat) throws SQLException {
-        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_usu=?";
+        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_usu_chat=?";//S introduciendo el id_usuario y obtienes todos estos datoseleccionados y eso hace q el 
         UsuarioxChat userxchat = new UsuarioxChat();
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setInt(1, id_user_chat);
@@ -41,7 +41,7 @@ public class UsuarioxChatDao {
 
     public ArrayList<UsuarioxChat> getUsuarioxChat(int idChat) throws SQLException {
         ArrayList<UsuarioxChat> mlista = new ArrayList<>();
-        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_chat=?";
+        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_chat=?";// seleccionas introduciendo tu id chat
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setInt(1, idChat);
         ResultSet Resultado = Consulta.executeQuery();
@@ -62,7 +62,7 @@ public class UsuarioxChatDao {
 
     public ArrayList<UsuarioxChat> getUsuarioxChat(String idUser, int idchat) throws SQLException {
         ArrayList<UsuarioxChat> mlista = new ArrayList<>();
-        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_user=? and idchat = ?";
+        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_usu=? and idchat = ?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, idUser);
         Consulta.setInt(1, idchat);
@@ -84,7 +84,7 @@ public class UsuarioxChatDao {
 
     public ArrayList<UsuarioxChat> getUsuarioxChat(String idUser) throws SQLException {
         ArrayList<UsuarioxChat> mlista = new ArrayList<>();
-        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_user=?";
+        String consulta = "Select id_usu_chat,id_chat, id_usu,fecha,admin from usuario x chat where id_usu=?";
         PreparedStatement Consulta = conect.prepareStatement(consulta);
         Consulta.setString(1, idUser);
         ResultSet Resultado = Consulta.executeQuery();

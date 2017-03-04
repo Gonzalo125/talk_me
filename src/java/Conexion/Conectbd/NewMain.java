@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dao.ChatDao;
 import model.dao.UsuarioDao;
-import model.Usuario;
+import model.Entidades.Usuario;
 
 /**
  *
