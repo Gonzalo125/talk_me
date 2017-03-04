@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dao;
+package Conexion.Conectbd;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Entidades.Usuario;
+import model.dao.ContactoDao;
 
 /**
  *

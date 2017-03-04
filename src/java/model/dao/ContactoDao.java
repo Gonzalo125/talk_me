@@ -65,7 +65,7 @@ public class ContactoDao {
             PreparedStatement insert = conect.prepareCall("{ call USP_ADD_CONTACTO(?,?,?)}");
             insert.setString(1, idUser);
             insert.setString(2, user.getId_usu());
-            insert.setString(3, "12/12/2007");  
+            insert.setString(3, ".");  
             insert.execute();
         }
 

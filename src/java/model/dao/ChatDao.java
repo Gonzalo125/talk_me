@@ -29,6 +29,8 @@ public class ChatDao {
        // String consulta = "Insert into chat (nombre,fecha,numero_personas,imagen,estado) values (?,?,?,?,?)";
        // String crear_chat= "select id_chat from chat where fec_chat=? and nom_chat =? and n_per_chat =?
         PreparedStatement insert = conect.prepareCall("{ call USP_INICIAR_CHAT(?)}");
+        PreparedStatement insert2 = conect.prepareCall("{ call USP_INICIAR_CHAT2(?,?,?,?)}");
+        
 
         insert.setString(1, nombre);
         
@@ -51,8 +53,8 @@ public class ChatDao {
     }
 
     private void insert_usuario_chat(int id_chat, String id_user, Boolean Admin) throws SQLException {
-        String consulta = "Insert into usuario x chat (id_chat,id_usu,fecha, estado, admin) values (?,?,?,?,?)";//insertas un uario en el chat
-        PreparedStatement insert = conect.prepareStatement(consulta);
+        //String consulta = "Insert into usuario x chat (id_chat,id_usu,fecha, estado, admin) values (?,?,?,?,?)";//insertas un uario en el chat
+        PreparedStatement insert = conect.prepareCall("call USP_INSERT_USUARIO_CHAT(?,?,?,?,?) ");
         
         long mili = System.currentTimeMillis();
         Date date = new Date(mili);
@@ -67,8 +69,8 @@ public class ChatDao {
     public void deletePersonChat(int id_chat, String user) throws SQLException {
         // Chat chat = getChat(id_chat);
 
-        String consulta = "delete usuario x chat where id_chat =? and id_usu= ?";// eleminias una persona del chat
-        PreparedStatement insert = conect.prepareStatement(consulta);
+        // String consulta = "delete usuario x chat where id_chat =? and id_usu= ?";// eleminias una persona del chat
+        PreparedStatement insert = conect.prepareCall("call USP_DELETE_PERSON_CHAT(?,?) ");
         insert.setInt(1, id_chat);
         insert.setString(2, user);
         
@@ -78,8 +80,8 @@ public class ChatDao {
 
     public void deleteAdmin(int id_chat, String user) throws SQLException {
 
-        String consulta = "delete usuario x chat where id_chat =? and id_usu= ?";//eliminas el admin
-        PreparedStatement insert = conect.prepareStatement(consulta);
+        //String consulta = "delete usuario x chat where id_chat =? and id_usu= ?";//eliminas el admin
+        PreparedStatement insert = conect.prepareStatement("call USP_DELETE_ADMIN(?,?)");
          insert.setInt(1, id_chat);
         insert.setString(2, user);
 
@@ -89,8 +91,8 @@ public class ChatDao {
     public Chat getChat(int idChat) throws SQLException {
 
         Chat objChat = new Chat();
-        String consulta = "Select id_chat,nombre,numero_personas,fecha,imagen from chat where id_chat=?";// llamas al chat
-        PreparedStatement Consulta = conect.prepareStatement(consulta);
+        //String consulta = "Select id_chat,nombre,numero_personas,fecha,imagen from chat where id_chat=?";// llamas al chat
+        PreparedStatement Consulta = conect.prepareStatement("call USP_GET_CHAT(?)");
         Consulta.setInt(1, idChat);
         ResultSet Resultado = Consulta.executeQuery();
         while (Resultado.next()) {

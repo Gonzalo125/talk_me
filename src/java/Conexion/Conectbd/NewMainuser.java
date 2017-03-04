@@ -3,19 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dao;
+package Conexion.Conectbd;
 
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Entidades.Usuario;
 import model.dao.UsuarioDao;
+import model.dao.UsuarioDao;
 
 /**
  *
  * @author User
  */
-public class NewMain {
+public class NewMainuser {
 
     /**
      * @param args the command line arguments

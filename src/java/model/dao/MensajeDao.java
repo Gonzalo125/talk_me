@@ -53,8 +53,8 @@ public class MensajeDao {
 
         int id_usuario_chat = mlist.get(0).getId_usuario_chat();
 
-        String consulta = "insert into mensaje (id_usu_chat, fecha, mensaje) values( ?,?, ?)";
-        PreparedStatement insert = conect.prepareStatement(consulta);
+        //String consulta = "insert into mensaje (id_usu_chat, fecha, mensaje) values( ?,?, ?)";
+        PreparedStatement insert = conect.prepareCall("call USP_ADD_MENSAJE(?,?,?)");
         insert.setInt(1, id_usuario_chat);
         long mili = System.currentTimeMillis();
         Date date = new Date(mili);
