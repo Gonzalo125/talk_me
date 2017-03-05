@@ -28,24 +28,32 @@ public class ChatDao {
 
        // String consulta = "Insert into chat (nombre,fecha,numero_personas,imagen,estado) values (?,?,?,?,?)";
        // String crear_chat= "select id_chat from chat where fec_chat=? and nom_chat =? and n_per_chat =?
-        PreparedStatement insert = conect.prepareCall("{ call USP_INICIAR_CHAT(?)}");
-        PreparedStatement insert2 = conect.prepareCall("{ call USP_INICIAR_CHAT2(?,?,?,?)}");
-        
-
+        PreparedStatement insert = conect.prepareCall("{ call USP_INICIAR_CHAT(?,?,?,?,?)}");
+       
         insert.setString(1, nombre);
         
         long mili = System.currentTimeMillis();
         Date date = new Date(mili);
-        insert.setDate(2, date);
+        insert.setDate(3, date);
            
         int cant_user = user.size() + 1;
-        insert.setInt(3, cant_user);
+        insert.setInt(2, cant_user);
         insert.setString(4, img);
         insert.setBoolean(5, false);
 
-        insert.executeUpdate();
-
+        insert.execute();
+        
+        PreparedStatement insert2 = conect.prepareCall("{ call USP_INICIAR_CHAT2(?,?)}");
+        insert2.setString(1, nombre);
+        insert2.setInt(2, cant_user);
+        
+       // insert2.execute();
         int id_chat = 0;
+         ResultSet Resultado = insert2.executeQuery();
+        while (Resultado.next()) {
+            id_chat = Resultado.getInt(1);
+        }
+        
         this.insert_usuario_chat(id_chat,id_user_Admin, true);
         for (Usuario user_unico : user) {
             this.insert_usuario_chat(id_chat, user_unico.getId_usu(), false);
@@ -60,10 +68,11 @@ public class ChatDao {
         Date date = new Date(mili);
         
         insert.setInt(1, id_chat);
-        insert.setDate(2, date);
-        insert.setInt(3, id_chat);
+        insert.setDate(3, date);
+        insert.setString(2, id_user);
         insert.setBoolean(4, false);
         insert.setBoolean(5, Admin);
+         insert.execute();
     }
 
     public void deletePersonChat(int id_chat, String user) throws SQLException {

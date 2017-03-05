@@ -21,7 +21,7 @@ import model.dao.UsuarioDao;
  *
  * @author User
  */
-@WebServlet(name = "LoginConexion", urlPatterns = {"/LoginConexion"})
+ // @WebServlet(name = "LoginConexion", urlPatterns = {"/LoginConexion"})
 public class LoginConexion extends HttpServlet {
 
     /**
@@ -42,13 +42,14 @@ public class LoginConexion extends HttpServlet {
             
             UsuarioDao objUsuario = new UsuarioDao();
             if(objUsuario.verificar_usuario(id, Clave)){
-                request.getRequestDispatcher("panta_chat.jsp").forward(request, response);
-                
+                // request.getRequestDispatcher("panta_chat.jsp").forward(request, response);
+                out.println(true);
             }
             else{
                 out.println("Error en Usuario y/o clave");
                 String redirectUrl="Login.jsp";
-                response.sendRedirect(redirectUrl);
+                // response.sendRedirect(redirectUrl);
+                 out.println(false);
             }
             
         } catch (SQLException ex) {
