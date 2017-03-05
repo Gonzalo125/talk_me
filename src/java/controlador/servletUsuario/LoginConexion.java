@@ -21,7 +21,8 @@ import model.dao.UsuarioDao;
  *
  * @author User
  */
- // @WebServlet(name = "LoginConexion", urlPatterns = {"/LoginConexion"})
+// @WebServlet(name = "LoginConexion", urlPatterns = {"/LoginConexion"})
+@WebServlet("/LoginConexion")
 public class LoginConexion extends HttpServlet {
 
     /**
@@ -39,19 +40,18 @@ public class LoginConexion extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String id = request.getParameter("email");
             String Clave = request.getParameter("clave");
-            
+
             UsuarioDao objUsuario = new UsuarioDao();
-            if(objUsuario.verificar_usuario(id, Clave)){
+            if (objUsuario.verificar_usuario(id, Clave)) {
                 // request.getRequestDispatcher("panta_chat.jsp").forward(request, response);
                 out.println(true);
-            }
-            else{
-                out.println("Error en Usuario y/o clave");
-                String redirectUrl="Login.jsp";
+            } else {
+                // out.println("Error en Usuario y/o clave");
+                // String redirectUrl="Login.jsp";
                 // response.sendRedirect(redirectUrl);
-                 out.println(false);
+                out.println(false);
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(LoginConexion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -85,7 +85,7 @@ public class LoginConexion extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-          
+
     /**
      * Returns a short description of the servlet.
      *
@@ -96,5 +96,4 @@ public class LoginConexion extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    
 }

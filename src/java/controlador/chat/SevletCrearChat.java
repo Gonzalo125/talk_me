@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.servletUsuario;
+package controlador.chat;
 
+import controlador.servletContactos.eliminarContacto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,16 +17,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Entidades.Chat;
 import model.Entidades.Usuario;
+import model.dao.ChatDao;
+import model.dao.ContactoDao;
 import model.dao.UsuarioDao;
 
 /**
  *
  * @author User
  */
-//@WebServlet(name = "Actualizar_user", urlPatterns = {"/Actualizar_user"})
-@WebServlet("/actualizarUser")
-public class Actualizar_user extends HttpServlet {
+//@WebServlet(name = "SevletIniciarChat", urlPatterns = {"/SevletIniciarChat"})
+@WebServlet("/crearChat")
+public class SevletCrearChat extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,33 +43,31 @@ public class Actualizar_user extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+        try {
 
-            String nombre = request.getParameter("nombre");
-            String alias = request.getParameter("alias");
-            String estado_usu = request.getParameter("estado");
-            String imagen_usu = request.getParameter("imagen");
-            String fecha_usu = request.getParameter("fecha_usu");
-            String email = request.getParameter("email");
-            int telefono = Integer.parseInt(request.getParameter("telef"));
+            Usuario contac_users = new Usuario();
 
-            Usuario user = new Usuario();
+            UsuarioDao dao = new UsuarioDao();
 
-            user.setNombre_usu(nombre);
-            user.setAlias(alias);
-            user.setEstado_usu(estado_usu);
-            user.setImagen_usu(imagen_usu);
-            user.setFecha_registro(fecha_usu);
-            user.setEmail(email);
-            user.setCelular(telefono);
+            String id_usuario = request.getParameter("id_usuario");
+            String id_usuario2 = request.getParameter("id_user");
 
-            UsuarioDao user_dao = new UsuarioDao();
-            user_dao.updateUser(user);
+            contac_users = dao.getUser(id_usuario2);
+
+            ArrayList<Usuario> listacontac = new ArrayList<>();
+            listacontac.add(contac_users);
+
+            String imagen_chat = request.getParameter("img_chat");
+            String i = request.getParameter("");
+            Chat objChat = new Chat();
+
+            ChatDao envio = new ChatDao();
+            envio.IniciarChat(id_usuario, listacontac, "", "");
 
         } catch (SQLException ex) {
-            Logger.getLogger(Actualizar_user.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

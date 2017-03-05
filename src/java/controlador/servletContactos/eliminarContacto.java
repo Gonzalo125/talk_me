@@ -25,7 +25,8 @@ import model.dao.UsuarioDao;
  *
  * @author User
  */
-@WebServlet(name = "eleiminarContacto", urlPatterns = {"/eleiminarContacto"})
+//@WebServlet(name = "eleiminarContacto", urlPatterns = {"/eleiminarContacto"})
+@WebServlet("/deleteContacto")
 public class eliminarContacto extends HttpServlet {
 
     /**
@@ -42,19 +43,16 @@ public class eliminarContacto extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           String id_contacto= request.getParameter("elimin_contact");
+            String id_contacto = request.getParameter("elimin_contact");
             String id_user = request.getParameter("id_user");
-           
-           
-           ContactoDao cont_dao= new ContactoDao();
-          
+
+            ContactoDao cont_dao = new ContactoDao();
+
             ArrayList<String> mlistaUsuarios = new ArrayList<>();
-           mlistaUsuarios.add(id_contacto);
-            
-           cont_dao.deleteContacto(id_user, mlistaUsuarios);
-           
-           
-           
+            mlistaUsuarios.add(id_contacto);
+
+            cont_dao.deleteContacto(id_user, mlistaUsuarios);
+
         } catch (SQLException ex) {
             Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
         }

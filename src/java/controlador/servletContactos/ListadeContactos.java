@@ -20,12 +20,14 @@ import model.Entidades.Contactos;
 import model.Entidades.Usuario;
 import model.dao.ContactoDao;
 import model.dao.UsuarioDao;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "llamarContacto", urlPatterns = {"/llamarContacto"})
+//@WebServlet(name = "llamarContacto", urlPatterns = {"/llamarContacto"})
+@WebServlet("/llamarContacto")
 public class ListadeContactos extends HttpServlet {
 
     /**
@@ -39,27 +41,16 @@ public class ListadeContactos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            ContactoDao contac_dao= new ContactoDao();
-            String id_user = request.getParameter("id_user");
-             contac_dao.getContactos("8");
-           ArrayList<Usuario> mlistaUsuarios = contac_dao.getUsercontactos(id_user);
-           
-           for(Usuario item:mlistaUsuarios){
-              
-                System.out.println("<tr> <td>"+item.getId_usu()+"</td>  <td>"+item.getNombre_usu()+"</td>  <td>"+item.getAlias()+"</td>  <td>"+item.getEmail()+"</td>  <td>"+item.getPassword()+"</td>  <td> "+item.getFecha_registro()+"</td> </tr>");
-              
-            }
-           
-           
-            
-            
-            
-            
-            
-           
+        try {
+            ContactoDao contac_dao = new ContactoDao();
+            String id_user = request.getParameter("id_usuario");
+            ArrayList<Usuario> mlistaUsuarios = contac_dao.getUsercontactos(id_user);
+
+            response.setContentType("application/json");
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), mlistaUsuarios);
+
         } catch (SQLException ex) {
             Logger.getLogger(ListadeContactos.class.getName()).log(Level.SEVERE, null, ex);
         }

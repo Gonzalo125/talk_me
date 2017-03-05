@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.servletUsuario;
+package controlador.servletContactos;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,16 +16,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Entidades.Usuario;
-import model.dao.UsuarioDao;
+import model.dao.ContactoDao;
 
 /**
  *
  * @author User
  */
-//@WebServlet(name = "Actualizar_user", urlPatterns = {"/Actualizar_user"})
-@WebServlet("/actualizarUser")
-public class Actualizar_user extends HttpServlet {
+//@WebServlet(name = "añadirContacto", urlPatterns = {"/a_adirContacto"})
+@WebServlet("/addContacto")
+public class addContacto extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,33 +38,22 @@ public class Actualizar_user extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try {
             /* TODO output your page here. You may use following sample code. */
+            String id_contacto = request.getParameter("anhadir_id_contact");
+            String id_user = request.getParameter("id_user");
 
-            String nombre = request.getParameter("nombre");
-            String alias = request.getParameter("alias");
-            String estado_usu = request.getParameter("estado");
-            String imagen_usu = request.getParameter("imagen");
-            String fecha_usu = request.getParameter("fecha_usu");
-            String email = request.getParameter("email");
-            int telefono = Integer.parseInt(request.getParameter("telef"));
+            ContactoDao cont_dao = new ContactoDao();
 
-            Usuario user = new Usuario();
+            ArrayList<String> mlistaUsuarios = new ArrayList<>();
+            mlistaUsuarios.add(id_contacto);
 
-            user.setNombre_usu(nombre);
-            user.setAlias(alias);
-            user.setEstado_usu(estado_usu);
-            user.setImagen_usu(imagen_usu);
-            user.setFecha_registro(fecha_usu);
-            user.setEmail(email);
-            user.setCelular(telefono);
-
-            UsuarioDao user_dao = new UsuarioDao();
-            user_dao.updateUser(user);
+            cont_dao.addContacto(id_user, mlistaUsuarios);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Actualizar_user.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

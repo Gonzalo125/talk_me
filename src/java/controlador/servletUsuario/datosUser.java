@@ -18,12 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 import model.Entidades.Usuario;
 
 import model.dao.UsuarioDao;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "datosUser", urlPatterns = {"/datosUser"})
+//@WebServlet(name = "datosUser", urlPatterns = {"/datosUser"})
+@WebServlet("/datosUser")
 public class datosUser extends HttpServlet {
 
     /**
@@ -36,34 +38,23 @@ public class datosUser extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+            throws ServletException, IOException {
+        try {
+            response.setContentType("application/json");
             /* TODO output your page here. You may use following sample code. */
-           //String idUser=request.getParameter("id_usuario");
-           String idUser="awe";
-          UsuarioDao user=new UsuarioDao();
-          user.getUser(idUser);
-                  
-             Usuario us =new Usuario();
-            System.out.println("nombre"+us.getId_usu());
-            request.getRequestDispatcher("vista_datos.jsp?nombre"+us.getId_usu()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?id_usuar"+us.getAlias()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?alias"+us.getEstado_usu()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?estado"+us.getImagen_usu()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?imagen"+us.getFecha_registro()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?fecha_usu"+us.getEmail()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?email"+us.getCelular()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?telef"+us.getId_usu()).forward(request, response);
-            request.getRequestDispatcher("vista_datos.jsp?password"+ us.getPassword()).forward(request, response);
-            String redirectUrl="vista_datos.jsp";
-          response.sendRedirect(redirectUrl);
-           
-    
-             } catch (SQLException ex) {
-            Logger.getLogger(Actualizar_user.class.getName()).log(Level.SEVERE, null, ex);
+            String idUser = request.getParameter("id_usuario");
+            //String idUser="awe";
+            UsuarioDao user = new UsuarioDao();
+
+            Usuario us = user.getUser(idUser);
+            //out.println(true);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), us);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(datosUser.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -78,11 +69,9 @@ public class datosUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(datosUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        processRequest(request, response);
+
     }
 
     /**
@@ -96,11 +85,9 @@ public class datosUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(datosUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        processRequest(request, response);
+
     }
 
     /**

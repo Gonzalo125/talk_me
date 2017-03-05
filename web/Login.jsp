@@ -8,43 +8,52 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <meta charset="UTF-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSP Page</title>
-        
-         <script src="http://code.jquery.com/jquery-latest.js">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js">
         </script>
         <script>
-	$(document).ready(function() {
-		$('#submit').click(function(event) {
-			var email = $('#email').val();
-			var clave = $('#clave').val();
-			
-			// Si en vez de por post lo queremos hacer por get, cambiamos el $.post por $.get
-			$.post('LoginConexion.do', {
-				nombre : email,
-				apellido: clave
-			}, function(responseText) {
-			 	// $('#tabla').html(responseText);
-			});
-		});
-	});
-</script>
- </head>   
-       
+            $(document).ready(function () {
+                $('#ingresar').click(function (event) {
+                    var email = $('#email').val();
+                    var clave = $('#clave').val();
+
+                    $.ajax({
+                        type: "post",
+                        url: 'LoginConexion',
+                        data: {
+                            email: email,
+                            clave: clave,
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            data = data.replace(/\s+/, "");
+                            if (data == "true") {
+                                location.href = "/talk_me/panta_chat.jsp"
+                            } else {
+                                alert("datos incorrectos");
+                            }
+                        }
+                    })
+                });
+            });
+        </script>
+    </head>   
+
     <body>
-     <h1>Login</h1>
-     <form id="form1">
-       <p>USUARIO:
-         <input type="text" name="email" id="email">
-              </p>
-        <p> PASWORD:
-          <input type="password" name="clave" id="clave">
-              </p>
-              <p>
-       <input type="submit" name="ingresar" id="ingresar" value="Ingresar">
-              </p>    
+        <h1>Login</h1>
+        <form id="for">
+            <p>USUARIO:
+                <input type="text"  id="email">
+            </p>
+            <p> PASWORD:
+                <input type="password"  id="clave">
+            </p>
+            <p>
+                <input type="button" id="ingresar" value="Ingresar">
+            </p>    
         </form>
-                  
+
     </body>
 </html>

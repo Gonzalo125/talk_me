@@ -60,7 +60,7 @@ public class ChatDao {
         }
     }
 
-    private void insert_usuario_chat(int id_chat, String id_user, Boolean Admin) throws SQLException {
+    public void insert_usuario_chat(int id_chat, String id_user, Boolean Admin) throws SQLException {
         //String consulta = "Insert into usuario x chat (id_chat,id_usu,fecha, estado, admin) values (?,?,?,?,?)";//insertas un uario en el chat
         PreparedStatement insert = conect.prepareCall("{call USP_INSERT_USUARIO_CHAT(?,?,?,?,?)} ");
         

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.servletContactos;
+package controlador.chat;
 
+import controlador.servletContactos.ListadeContactos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -16,14 +17,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Entidades.Chat;
+import model.Entidades.Usuario;
+import model.dao.ChatDao;
 import model.dao.ContactoDao;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author User
  */
-@WebServlet(name = "añadirContacto", urlPatterns = {"/a_adirContacto"})
-public class añadirContacto extends HttpServlet {
+//@WebServlet(name = "serveltListaContcChat", urlPatterns = {"/serveltListaContcChat"})
+@WebServlet("/listChat")
+public class serveltListaContcChat extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,25 +42,19 @@ public class añadirContacto extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            String id_contacto= request.getParameter("anhadir_id_contact");
-           String id_user = request.getParameter("id_user");
-           
-           ContactoDao cont_dao= new ContactoDao();
-          
-            ArrayList<String> mlistaUsuarios = new ArrayList<>();
-           mlistaUsuarios.add(id_contacto);
-            
-           cont_dao.addContacto(id_user, mlistaUsuarios);
-           
-           
-           
+        try {
+            ChatDao contac_chat = new ChatDao();
+            String id_chat = request.getParameter("id_usuario");
+            ArrayList<Chat> mlistaChat = contac_chat.getlistChat(id_chat);
+
+            response.setContentType("application/json");
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), mlistaChat);
+
         } catch (SQLException ex) {
-            Logger.getLogger(eliminarContacto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListadeContactos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

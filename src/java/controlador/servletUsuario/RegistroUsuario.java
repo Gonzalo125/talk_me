@@ -18,35 +18,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Entidades.Usuario;
 import model.dao.UsuarioDao;
+
 /**
  *
  * @author User
  */
-@WebServlet(name = "RegistroUsuario", urlPatterns = {"/RegistroUsuario"})
+//@WebServlet(name = "RegistroUsuario", urlPatterns = {"/RegistroUsuario"})
+@WebServlet("/registroUsuario")
 public class RegistroUsuario extends HttpServlet {
-
-   
-      
-
-
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String nombre_usu=request.getParameter("nombre");
-            String id_usua=request.getParameter("id_usuar");
-            String contraseña=request.getParameter("password:");
-            String alias= request.getParameter("alias");
-            String estado_usu=request.getParameter("estado");
-            String imagen_usu= "";//request.getParameter("imagen");
-            String fecha_usu="12/12/2017";//request.getParameter("fecha_usu");
-            String email=request.getParameter("email");
-            int telefono=Integer.parseInt(request.getParameter("telef"));
-            
-            
-            Usuario user= new Usuario();
-            
+            String nombre_usu = request.getParameter("nombre");
+            String id_usua = request.getParameter("id_usuar");
+            String contraseña = request.getParameter("password:");
+            String alias = request.getParameter("alias");
+            String estado_usu = request.getParameter("estado");
+            String imagen_usu = "";//request.getParameter("imagen");
+            String fecha_usu = "12/12/2017";//request.getParameter("fecha_usu");
+            String email = request.getParameter("email");
+            int telefono = Integer.parseInt(request.getParameter("telef"));
+
+            Usuario user = new Usuario();
+
             user.setNombre_usu(nombre_usu);
             user.setId_usu(id_usua);
             user.setAlias(alias);
@@ -56,18 +52,13 @@ public class RegistroUsuario extends HttpServlet {
             user.setEmail(email);
             user.setCelular(telefono);
             user.setPassword(contraseña);
-            UsuarioDao user_dao=new UsuarioDao();
+            UsuarioDao user_dao = new UsuarioDao();
             user_dao.insertUser(user);
-           
-         
-      	     
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(RegistroUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-         
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

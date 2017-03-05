@@ -28,8 +28,8 @@ public class MensajeDao {
 
         ArrayList<Mensaje> mlist = new ArrayList<>();
 
-        String consulta = "Select a.id_mensaje, a.id_usu_chat, a.fecha, a.mensaje from mensaje a, usuario x chat b where a.id_usu_chat = b.id_usu_chat and  b.id_Chat=?";//aca combina dos tablas del mensaje y del usuaeio por chat
-        PreparedStatement Consulta = conect.prepareStatement(consulta);
+       // String consulta = "Select a.id_mensaje, a.id_usu_chat, a.fecha, a.mensaje from mensaje a, usuario x chat b where a.id_usu_chat = b.id_usu_chat and  b.id_Chat=?";//aca combina dos tablas del mensaje y del usuaeio por chat
+        PreparedStatement Consulta = conect.prepareCall("call USP_OBTENER_MENSAJE(?)");
         Consulta.setInt(1, id_chat);
         ResultSet Resultado = Consulta.executeQuery();
         while (Resultado.next()) {

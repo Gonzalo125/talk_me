@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador.servletUsuario;
+package controlador.chat;
 
+import controlador.servletContactos.ListadeContactos;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -15,16 +15,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Entidades.Usuario;
-import model.dao.UsuarioDao;
+import model.dao.ChatDao;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
  * @author User
  */
-//@WebServlet(name = "Actualizar_user", urlPatterns = {"/Actualizar_user"})
-@WebServlet("/actualizarUser")
-public class Actualizar_user extends HttpServlet {
+//@WebServlet(name = "EliminarContChat", urlPatterns = {"/EliminarContChat"})
+@WebServlet("/eliminarContactoChat")
+public class EliminarContChat extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,33 +37,20 @@ public class Actualizar_user extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
+        response.setContentType("application/json");
+        try  {
+            ChatDao contac_chat= new ChatDao();
 
-            String nombre = request.getParameter("nombre");
-            String alias = request.getParameter("alias");
-            String estado_usu = request.getParameter("estado");
-            String imagen_usu = request.getParameter("imagen");
-            String fecha_usu = request.getParameter("fecha_usu");
-            String email = request.getParameter("email");
-            int telefono = Integer.parseInt(request.getParameter("telef"));
-
-            Usuario user = new Usuario();
-
-            user.setNombre_usu(nombre);
-            user.setAlias(alias);
-            user.setEstado_usu(estado_usu);
-            user.setImagen_usu(imagen_usu);
-            user.setFecha_registro(fecha_usu);
-            user.setEmail(email);
-            user.setCelular(telefono);
-
-            UsuarioDao user_dao = new UsuarioDao();
-            user_dao.updateUser(user);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Actualizar_user.class.getName()).log(Level.SEVERE, null, ex);
+            int id_chat = Integer.parseInt(request.getParameter("id_chat"));
+            String id_contc=request.getParameter("id_contact");
+         
+            contac_chat.deletePersonChat(id_chat, id_contc);
+            
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(response.getOutputStream(), "ok");
+  
+        } catch (Exception ex) {
+            Logger.getLogger(ListadeContactos.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
